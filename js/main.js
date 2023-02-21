@@ -26,7 +26,12 @@ function getDrinks(){
               if (data.drinks[0].strCategory == 'Punch / Party Drink') {
                 console.log(`${data.drinks[0].strCategory} ${data.drinks[0].strDrink}` )
 
+                document.getElementById('drinkList').innerHTML += `<li>${data.drinks[0].strDrink}</li>`
+
               }
+            })
+            .catch(err => {
+              console.log(`error ${err}`)
             })
         })
 
@@ -34,7 +39,6 @@ function getDrinks(){
       //   // get category for each drink
       //   // filter for chosen category
       //   // print drinks that match chosen category
-      // })
         
 
         
@@ -43,5 +47,5 @@ function getDrinks(){
       })
       .catch(err => {
           console.log(`error ${err}`)
-      });
+      })
 }
