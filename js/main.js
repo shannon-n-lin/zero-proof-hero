@@ -1,7 +1,17 @@
-// document.getElementById('ordinary').addEventListener('click', getDrinks)
 document.getElementById('ordinary').addEventListener('click', () => getDrinks('Ordinary Drink'))
+document.getElementById('cocktail').addEventListener('click', () => getDrinks('Cocktail'))
+document.getElementById('shake').addEventListener('click', () => getDrinks('Shake'))
+document.getElementById('other').addEventListener('click', () => getDrinks('Other / Unknown'))
+document.getElementById('cocoa').addEventListener('click', () => getDrinks('Cocoa'))
+document.getElementById('coffee-tea').addEventListener('click', () => getDrinks('Coffee / Tea'))
+document.getElementById('punch-party').addEventListener('click', () => getDrinks('Punch / Party Drink'))
 
-function getDrinks(){
+function getDrinks(category){
+
+  // remove any previous results
+  if (document.getElementById('drinkList').innerHTML) {
+    document.getElementById('drinkList').innerHTML = ''
+  }
 
   fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic`)
       .then(res => res.json()) // parse response as JSON
@@ -17,34 +27,24 @@ function getDrinks(){
       .then(drinkIds => {
         drinkIds.forEach(item => {
 
-          // get data for each drink
+          // get data for each drink ID
           fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=` + item)
             .then(res => res.json())
             .then(data => {
 
-              // console.log if category matches
-              if (data.drinks[0].strCategory == 'Punch / Party Drink') {
-                console.log(`${data.drinks[0].strCategory} ${data.drinks[0].strDrink}` )
-
+              // check for chosen category
+              if (data.drinks[0].strCategory == category) {
+                // add drink name to DOM
                 document.getElementById('drinkList').innerHTML += `<li>${data.drinks[0].strDrink}</li>`
-
               }
             })
+
             .catch(err => {
               console.log(`error ${err}`)
             })
         })
-
-      //   // fetch each drink
-      //   // get category for each drink
-      //   // filter for chosen category
-      //   // print drinks that match chosen category
-        
-
-        
-
-        
       })
+
       .catch(err => {
           console.log(`error ${err}`)
       })
